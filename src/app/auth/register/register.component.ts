@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -15,6 +17,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
+    private readonly router: Router,
   ) {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -35,6 +38,7 @@ export class RegisterComponent implements OnInit {
     this.authService.createUser(this.registerForm.value)
       .then(data => {
         console.log(data);
+        this.router.navigate(['/']);
       })
       .catch(error => {
         console.error(error);
