@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 import { AuthService } from '../services/auth.service';
 
@@ -35,13 +36,25 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    Swal.fire({
+      title: 'Espere un momento!',
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.authService.createUser(this.registerForm.value)
       .then(data => {
         console.log(data);
+        Swal.close();
         this.router.navigate(['/']);
       })
       .catch(error => {
-        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: error.message,
+        });
       });
   }
 
