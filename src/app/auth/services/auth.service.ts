@@ -12,11 +12,19 @@ export class AuthService {
     private readonly auth: AngularFireAuth,
   ) { }
 
+  initAuthListener() {
+    return this.auth.authState;
+  }
+
   createUser({ email, password }: IRegisterUser) {
     return this.auth.createUserWithEmailAndPassword(email, password);
   }
 
   signIn({ email, password }: ILoginUser) {
     return this.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  logout() {
+    return this.auth.signOut();
   }
 }
