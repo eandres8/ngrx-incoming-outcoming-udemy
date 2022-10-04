@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { map } from 'rxjs';
 
  import { ILoginUser, IRegisterUser } from 'src/app/models/auth';
 
@@ -26,5 +27,11 @@ export class AuthService {
 
   logout() {
     return this.auth.signOut();
+  }
+
+  isAuth() {
+    return this.auth.authState.pipe(
+      map(fuser => !!fuser)
+    );
   }
 }
