@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
-import { User } from '../models/entities/user.model';
+import { IUser } from '../models/interfaces/auth.interface';
 
 export const setUserAction = createAction(
     '[Auth] setUser',
-    props<{ user: User }>(),
+    props<{ user: IUser }>(),
 );
 
 export const cleanUserAction = createAction('[Auth] cleanUser');

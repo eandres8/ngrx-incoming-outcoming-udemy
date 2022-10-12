@@ -16,6 +16,7 @@ import { cleanUserAction, setUserAction } from '../auth.actions';
 export class AuthService {
 
   private firebaseUser$: Subscription | undefined;
+  private _user: IUser | null = null;
 
   constructor(
     private readonly auth: AngularFireAuth,
@@ -23,18 +24,23 @@ export class AuthService {
     private readonly store: Store<AppState>,
   ) { }
 
+  get user() {
+    return { ...this._user };
+  }
+
   initAuthListener() {
     return this.auth.authState.subscribe(fuser => {
       if (!!fuser) {
         this.firebaseUser$ = this.firestore.doc(`${fuser!.uid}/users`).valueChanges()
           .subscribe(firebaseUser => {
-            const user = User.fromMap(firebaseUser as IUser);
-            this.store.dispatch(setUserAction({ user }));
+            this._user = User.fromMap(firebaseUser as IUser);
+            this.store.dispatch(setUserAction({ user: this._user }));
           });
 
         return;
       }
 
+      this._user = null;
       this.firebaseUser$?.unsubscribe();
       this.store.dispatch(cleanUserAction());
     });

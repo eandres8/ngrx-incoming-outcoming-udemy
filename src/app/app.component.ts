@@ -14,8 +14,6 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.authService.initAuthListener().subscribe(fuser => {
-      console.log(fuser);
-    });
+    this.authService.initAuthListener();
   }
 }

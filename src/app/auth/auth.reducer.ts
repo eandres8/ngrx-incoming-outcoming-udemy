@@ -1,10 +1,10 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 
 import { cleanUserAction, setUserAction } from './auth.actions';
-import { User } from '../models/entities/user.model';
+import { IUser } from '../models/interfaces/auth.interface';
 
 export interface AuthState {
-    user: User | null; 
+    user: IUser | null; 
 }
 
 export const initialState: AuthState = {
@@ -13,6 +13,6 @@ export const initialState: AuthState = {
 
 export const authReducer = createReducer(
     initialState,
-    on(setUserAction, state => ({ ...state, user: state.user!.clone() })),
+    on(setUserAction, (state, { user }) => ({ ...state, user: { ...user } })),
     on(cleanUserAction, state => ({ ...state, user: null})),
 );

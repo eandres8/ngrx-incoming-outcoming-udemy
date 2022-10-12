@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
-import Swal from 'sweetalert2';
 
 import { AuthService } from '../services/auth.service';
-import { AppState } from 'src/app/app.store';
-import { startLoadingAction, stopLoadingAction } from 'src/app/shared/ui.actions';
+import { NotificationsFacadeService } from 'src/app/shared/services/facades/notifications-facade.service';
+import { UiFacadeService } from 'src/app/shared/services/facades/ui-facade.service';
 
 @Component({
   selector: 'app-register',
@@ -18,14 +15,13 @@ import { startLoadingAction, stopLoadingAction } from 'src/app/shared/ui.actions
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  private store$: Subscription | undefined;
-  public isLoading = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly store: Store<AppState>,
+    private readonly notify: NotificationsFacadeService,
+    public readonly uiFacade: UiFacadeService,
   ) {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -35,14 +31,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store$ = this.store.select('ui').subscribe(ui => {
-      console.log('cargando subs');
-      this.isLoading = ui.isLoading;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.store$?.unsubscribe();
+    
   }
 
   public onSubmit(): void {
@@ -50,30 +39,18 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(startLoadingAction());
-
-    // Swal.fire({
-    //   title: 'Espere un momento!',
-    //   didOpen: () => {
-    //     Swal.showLoading();
-    //   }
-    // });
+    this.uiFacade.startLoading();
 
     this.authService.createUser(this.registerForm.value)
       .then(data => {
         console.log(data);
-        Swal.close();
         this.router.navigate(['/']);
       })
       .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.message,
-        });
+        this.notify.error(error.message);
       })
       .finally(() => {
-        this.store.dispatch(stopLoadingAction());
+        this.uiFacade.stopLoading();
       });
   }
 

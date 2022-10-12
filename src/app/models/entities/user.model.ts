@@ -11,7 +11,11 @@ export class User {
         return new User(uid, name, email);
     }
 
-    public clone() {
-        return new User(this.uid, this.name, this.email);
+    public copyWith(user: Partial<IUser>) {
+        return new User(
+            user.uid || this.uid,
+            user.name || this.name,
+            user.email || this.email,
+        );
     }
 }

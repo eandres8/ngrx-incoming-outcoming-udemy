@@ -54,7 +54,7 @@
                 type="submit"
                 class="btn btn-primary submit-btn btn-block"
                 [disabled]="loginForm.invalid"
-                *ngIf="!isLoading; else loadingButton"
+                *ngIf="!(uiFacade.isLoading$ | async); else loadingButton"
               >
                 Login
               </button>

@@ -1,13 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
-import Swal from 'sweetalert2';
 
 import { AuthService } from '../services/auth.service';
-import { AppState } from 'src/app/app.store';
-import { startLoadingAction, stopLoadingAction } from 'src/app/shared/ui.actions';
+import { NotificationsFacadeService } from 'src/app/shared/services/facades/notifications-facade.service';
+import { UiFacadeService } from 'src/app/shared/services/facades/ui-facade.service';
 
 @Component({
   selector: 'app-login',
@@ -15,17 +12,16 @@ import { startLoadingAction, stopLoadingAction } from 'src/app/shared/ui.actions
   styles: [
   ]
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  private store$: Subscription | undefined;
-  public isLoading = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly store: Store<AppState>,
+    private readonly notify: NotificationsFacadeService,
+    public readonly uiFacade: UiFacadeService,
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['elb.andres8@gmail.com', [Validators.required, Validators.email]],
@@ -34,14 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store$ = this.store.select('ui').subscribe(ui => {
-      console.log('cargando subs');
-      this.isLoading = ui.isLoading;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.store$?.unsubscribe();
+    
   }
 
   onSubmit() {
@@ -49,29 +38,17 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.store.dispatch(startLoadingAction());
-
-    // Swal.fire({
-    //   title: 'Espere un momento!',
-    //   didOpen: () => {
-    //     Swal.showLoading();
-    //   }
-    // });
+    this.uiFacade.startLoading();
 
     this.authService.signIn(this.loginForm.value)
       .then(data => {
         this.router.navigate(['/']);
-        Swal.close();
       })
       .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.message,
-        });
+        this.notify.error(error.message);
       })
       .finally(() => {
-        this.store.dispatch(stopLoadingAction());
+        this.uiFacade.stopLoading();
       });
   }
 
