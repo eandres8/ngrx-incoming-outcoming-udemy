@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { cleanUserAction, setUserAction } from './auth.actions';
-import { IUser } from '../models/interfaces/auth.interface';
+import { IUser } from 'src/app/models/interfaces/auth.interface';
 
 export interface AuthState {
     user: IUser | null; 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { NotificationsFacadeService } from 'src/app/shared/services/facades/notifications-facade.service';
 import { UiFacadeService } from 'src/app/shared/services/facades/ui-facade.service';
 

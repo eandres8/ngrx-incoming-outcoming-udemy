@@ -5,10 +5,10 @@ import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
 
 
-import { AppState } from 'src/app/app.store';
+import { AppState } from 'src/app/store/app.store';
 import { User } from 'src/app/models/entities/user.model';
  import { ILoginUser, IRegisterUser, IUser } from 'src/app/models/interfaces/auth.interface';
-import { cleanUserAction, setUserAction } from '../auth.actions';
+import { cleanUserAction, setUserAction } from '../store/auth/auth.actions';
 
 @Injectable({
   providedIn: 'root'

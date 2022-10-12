@@ -8,7 +8,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { appReducers } from './app.store';
+import { appReducers } from './store/app.store';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
