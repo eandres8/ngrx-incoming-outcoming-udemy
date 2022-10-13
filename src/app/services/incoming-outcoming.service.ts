@@ -18,8 +18,9 @@ export class IncomingOutcomingService {
   ) { }
 
   createIncomingOutcoming(invoicing: IIncomingOutcoming) {
-    const uid = this.localUser.userId;
-    return this.firestore.doc(`${uid}/${this.path}`)
+    const userId = this.localUser.userId;
+
+    return this.firestore.doc(`${userId}/${this.path}`)
       .collection('items')
       .add({ ...invoicing });
   }
@@ -28,15 +29,18 @@ export class IncomingOutcomingService {
     return this.firestore.collection(`${userId}/${this.path}/items`)
       .snapshotChanges().pipe(
         map(snapshot => 
-          snapshot.map(doc => IncomingOutcoming.fromMap({
-            uid: doc.payload.doc.id,
-            ...(doc.payload.doc.data() as any),
-          }))
+          snapshot.map(doc => ({...IncomingOutcoming.fromMap({
+              uid: doc.payload.doc.id,
+              ...(doc.payload.doc.data() as any),
+            })})
+          )
         )
       );
   }
 
-  deleteIncomingOutcoming() {
-    
+  deleteIncomingOutcoming(itemId: string) {
+    const userId = this.localUser.userId;
+
+    return this.firestore.doc(`${userId}/${this.path}/items/${itemId}`).delete();
   }
 }

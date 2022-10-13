@@ -20,6 +20,7 @@ import { DetailsComponent } from './invoicing/details/details.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { SortInvoicingPipe } from './shared/pipes/sort-invoicing.pipe';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
     DetailsComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    SortInvoicingPipe
   ],
   imports: [
     BrowserModule,

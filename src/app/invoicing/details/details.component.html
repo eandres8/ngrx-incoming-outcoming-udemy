@@ -15,7 +15,7 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let item of itemList$ | async">
+            <tr *ngFor="let item of ((itemList$ | async) || []) | sortInvoicing">
               <td>{{ item.description }}</td>
               <td>{{ item.value | currency }}</td>
               <td
