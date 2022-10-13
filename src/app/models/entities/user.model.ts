@@ -7,7 +7,7 @@ export class User {
         public readonly email: string,
     ) {}
 
-    static fromMap({ uid, email, name }: IUser) {
+    static fromMap({ uid= '', email= '', name= '' }: Partial<IUser>) {
         return new User(uid, name, email);
     }
 
