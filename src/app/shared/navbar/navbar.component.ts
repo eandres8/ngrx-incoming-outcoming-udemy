@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthFacadeService } from '../services/facades/auth-facade.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -7,8 +9,11 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class NavbarComponent implements OnInit {
+  user$ = this.authFacade.user$;
 
-  constructor() { }
+  constructor(
+    private readonly authFacade: AuthFacadeService,
+  ) { }
 
   ngOnInit(): void {
   }
