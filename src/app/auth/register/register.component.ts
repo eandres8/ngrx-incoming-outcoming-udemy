@@ -42,8 +42,7 @@ export class RegisterComponent implements OnInit {
     this.uiFacade.startLoading();
 
     this.authService.createUser(this.registerForm.value)
-      .then(data => {
-        console.log(data);
+      .then(() => {
         this.router.navigate(['/']);
       })
       .catch(error => {

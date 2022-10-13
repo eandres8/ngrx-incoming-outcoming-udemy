@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { InvoicingFacadeService } from 'src/app/shared/services/facades/invoicing-facade.service';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styles: [
-  ]
+  styles: []
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent {
+  itemList$ = this.invoicingFacade.items$;
 
-  constructor() { }
+  constructor(
+    private readonly invoicingFacade: InvoicingFacadeService,
+  ) { }
 
-  ngOnInit(): void {
+  deleteItem(uid: string) {
+    console.log({ uid });
   }
 
 }

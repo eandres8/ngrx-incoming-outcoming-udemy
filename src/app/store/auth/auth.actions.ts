@@ -2,9 +2,14 @@ import { createAction, props } from '@ngrx/store';
 
 import { IUser } from '../../models/interfaces/auth.interface';
 
+export const enum AuthActions {
+    SET_USER= '[] SET_USER',
+    CLEAN_USER= '[] CLEAN_USER',
+}
+
 export const setUserAction = createAction(
-    '[Auth] setUser',
+    AuthActions.SET_USER,
     props<{ user: IUser }>(),
 );
 
-export const cleanUserAction = createAction('[Auth] cleanUser');
+export const cleanUserAction = createAction(AuthActions.CLEAN_USER);
