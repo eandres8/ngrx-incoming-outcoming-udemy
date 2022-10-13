@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChartData, ChartEvent, ChartType } from 'chart.js';
 
 import { IIncomingOutcoming } from 'src/app/models/interfaces/incoming-outcomming.interface';
 import { InvoicingFacadeService } from 'src/app/shared/services/facades/invoicing-facade.service';
@@ -16,6 +17,12 @@ export class StatisticsComponent implements OnInit {
 
   incomingTotal: number = 0;
   outcomingTotal: number = 0;
+
+  public doughnutChartData: ChartData<'doughnut'> = {
+    labels: ['Incoming', 'Outcoming'],
+    datasets: [{ data: [ 0 , 0 ] }]
+  };
+  public doughnutChartType: ChartType = 'doughnut';
 
   constructor(
     private readonly invoicingFacade: InvoicingFacadeService,
@@ -45,6 +52,8 @@ export class StatisticsComponent implements OnInit {
     this.outcoming = outcoming;
     this.incomingTotal = incomingTotal;
     this.outcomingTotal = outcomingTotal;
+
+    this.doughnutChartData.datasets = [ { data: [incomingTotal, outcomingTotal] } ];
   }
 
   get difference() {

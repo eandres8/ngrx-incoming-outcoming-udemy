@@ -5,6 +5,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { NgChartsModule } from 'ng2-charts';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -48,6 +49,7 @@ import { SortInvoicingPipe } from './shared/pipes/sort-invoicing.pipe';
       maxAge: 25,
       logOnly: environment.production,
     }),
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
