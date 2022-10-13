@@ -7,8 +7,8 @@ export const enum InvoicingActions {
     UNSET_ITEMS= '[INVOICING] UNSET_ITEMS',
 }
 
-export const setItems = createAction(
+export const setItemsAction = createAction(
     InvoicingActions.SET_ITEMS,
     props<{ items: IIncomingOutcoming[] }>(),
 );
-export const unsetItems = createAction(InvoicingActions.UNSET_ITEMS);
+export const unsetItemsAction = createAction(InvoicingActions.UNSET_ITEMS);

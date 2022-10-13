@@ -1,11 +1,11 @@
-import { IIncomingOutcoming } from '../interfaces/incoming-outcomming.interface';
+import { IIncomingOutcoming, IncomingOutcomingType } from '../interfaces/incoming-outcomming.interface';
 
 export class IncomingOutcoming implements IIncomingOutcoming {
     constructor(
         public readonly uid: string,
         public readonly description: string,
         public readonly value: string,
-        public readonly type: string,
+        public readonly type: IncomingOutcomingType,
     ) {}
 
     static fromMap(incOut: Partial<IIncomingOutcoming>) {
@@ -13,7 +13,7 @@ export class IncomingOutcoming implements IIncomingOutcoming {
             incOut.uid || '',
             incOut.description || '',
             incOut.value || '',
-            incOut.type || '',
+            incOut.type || 'INCOMING',
         );
     }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/store/app.store';
@@ -9,7 +9,8 @@ import { selectAuthUserId } from 'src/app/store/auth/auth.selectors';
   providedIn: 'root'
 })
 export class AuthFacadeService {
-  userId$: Observable<String> = this.store.select(selectAuthUserId);
+  userId$: Observable<string> = this.store.select(selectAuthUserId)
+    .pipe(filter(userId => !!userId));
 
   constructor(
     private readonly store: Store<AppState>,
